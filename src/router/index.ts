@@ -19,7 +19,8 @@ const router = createRouter({
         title: 'todo列表'
       }
     }
-  ]
+  ],
+  scrollBehavior: () => ({ left: 0, top: 0 })
 })
 
 router.beforeEach((to, from, next) => {

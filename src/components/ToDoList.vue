@@ -2,27 +2,33 @@
   <div class="w-400 m-auto">
     <input class="h-32 inp"  @keydown.enter="add"  type="text" v-model="inp" />
     <button @click.stop="add" class="h-32 m-l10 w-50 cursor-pointer">添加</button>
-    <ul class="list p-t10">
-      <li class="h-24 lh-24 fs-14" v-for="(item, key) in list" :key="key">
+
+    <ul class="list p-t10" v-if="list.length">
+      <li class="h-24 lh-24 fs-14" v-for="(item, key) in list" :key="key" :class="{ gray: item.done  }">
         <input type="checkbox" v-model="item.done" /> {{ item.label }}
       </li>
     </ul>
+    <div v-else class="h-24 lh-24">列表为空</div>
     <div>
       <span>全选：</span>
       <input type="checkbox" v-model="allDone" />
-      <span class="m-l10">{{ total }} / {{ active }}</span>
+      <span class="m-l10">{{ active }} / {{ total }}</span>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watchEffect } from 'vue';
 const inp = ref('');
 interface ListItem {
   label: string;
   done: boolean;
 }
 const list = ref<Array<ListItem>>([{ label: '吃饭', done: false }]);
+list.value = JSON.parse(localStorage.getItem('todolist') || '[]')
+watchEffect(() => {
+  localStorage.setItem('todolist', JSON.stringify(list.value))
+})
 const add = () => {
   if (!inp.value) {
     alert('请输入内容')
