@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory} from 'vue-router'
+import { useRouteStoreWidthOut } from '@/store/modules/router'
+const routeStore = useRouteStoreWidthOut()
 
 const router = createRouter({
   history: createWebHistory(),
@@ -27,6 +29,7 @@ router.beforeEach((to, from, next) => {
   if (to.meta.title) {
     document.title = String(to.meta.title)
   }
+  routeStore.addHistory({path: to.fullPath, from: from.fullPath})
   next()
 })
 
