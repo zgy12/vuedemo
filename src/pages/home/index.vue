@@ -16,7 +16,7 @@
 <script setup lang="ts">
 import { useUserStore } from '@/store/modules/user';
 const userStore = useUserStore();
-import { useCounterStore } from '@/store/modules/counter';
+import { useCounterStore } from '@/store';
 const counterStore = useCounterStore();
 const add = () => {
   counterStore.addCount();
